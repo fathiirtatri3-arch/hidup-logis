@@ -1,0 +1,47 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  name            String?
+  passwordHash    String
+  isVerified      Boolean   @default(false)
+  isPremium       Boolean   @default(false)
+  premiumUntil    DateTime?
+  auditCount      Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("users")
+}
+
+model Audit {
+  id              String    @id @default(cuid())
+  userId          String?
+  userIdentifier  String?
+  salary          Float
+  livingCost      Float
+  foodCost        Float
+  transportCost   Float
+  workingHours    Float
+  savingsTarget   Float
+  totalScore      Int
+  zone            String
+  remainingMoney  Int
+  timeCost        Int
+  savingsAmount   Int
+  realityCheck    String
+  breakdown       String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@map("audits")
+}
